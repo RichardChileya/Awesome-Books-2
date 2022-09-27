@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Awesome Books</title>
+  <title>Book Tracker</title>
+  <link rel="stylesheet" href="index.css">
 </head>
-
-<body class="body" onload="homeSectionDisplay()">
-  <header class="header">
-    <h1>Awesome Books</h1>
-    <nav class="nav-bar">
-      <ul class="nav-ul">
-        <li><a id="list-nav" href="#book-list">List</a> </li>
-        <li><a id="add-nav" href="#form-section">Add New</a> </li>
-        <li><a id="contact-nav" href="#contact">Contact</a> </li>
-      </ul>
-    </nav>
+<body>
+  <header>
+      <nav class="nav-bar flex-row">
+        <h2 class="logo">
+          my Awesome Books
+        </h2>
+        <ul class="nav-list flex-row">
+          <li><a href="#" data-page="page1">List</a></li>
+          <li><a href="#" data-page="page2">New Book</a></li>
+          <li><a href="#" data-page="page3">Contact</a></li>
+        </ul>
+      </nav>
   </header>
-  <main>
+  <div class="date"></div>
 
-    <section id="book-list">
-      <table>
-        <tbody id="collection">
-        </tbody>
+  <section class="content" id="page1">
+    <div class="container">
+      <h2>All Awesome Books</h2>
+      <table class="library">
+        <tr>
+          <th>Book Title</th>
+          <th>Author</th>
+          <th>Remove</th>
+        </tr>
+        <!-- Dynamically loaded Content -->
       </table>
-    </section>
-    <br>
-    <section id="form-section">
-      <form id="book-form" action="#">
-        <input id="title" type="text" placeholder="Title"> <br><br>
-        <input id="author" type="text" placeholder="Author"><br><br>
-        <input id="add-btn" type="submit" value="Add">
+    </div>
+  </section>
+  <section class="content" id="page2">
+    <div class="container">
+      <form action="#" method="post" class="form">
+        <input type="text" name="title" id="title" placeholder="Book Title">
+        <input type="text" name="author" id="author" placeholder="Author">
+        <button class="add" type="submit">Add Book</button>
       </form>
-    </section>
-    <section id="contact">
+    </div>
+  </section>
+  <section class="content" id="page3">
+    <div class="container">
       <h2>Contact Information</h2>
-      <h3>Do you have any questions or you just want to say "Hello"? <br>
-        You can reach out to us!
-      </h3>
-
-      <ul class="lists">
-        <li>Our e-mail:mail@mail.com</li>
-        <li>Our Phone: 0002302320323</li>
-        <li>Our Address: Streetname 22, 84503 City, Country</li>
+      <p class="para">Thank you for choosing My Awesome Book App.</p>
+      <p class="para">You can reach out to me via:</p>
+      <ul class="list">
+        <li>Email @richard@gmail.com</li>
+        <li>Connect with us on LinkedIn</li>
       </ul>
-    </section>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <small class="footer">
+        &copy;Mybooks Copyright 2022.<br>
+    </div>
+  </footer>
 
-    <footer class="footer">
-      <h4> © All Rights Reserved - 2022 mudasir9757@gmail.com</h4>
-    </footer>
-    
-  </main>
   <script type="module" src="index.js"></script>
 </body>
-
 </html>
