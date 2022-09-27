@@ -1,83 +1,62 @@
-import BookClass from './modules/books.js';
+/* Modules as local dependencies for the Book Tracker App */
+import Storage from './modules/storage.js';
+import validateForm from './modules/formValidation.js';
+import removeBook from './modules/removeElements.js';
+import Book from './modules/newObject.js';
+/* eslint-disable */
+import { writeBook, UI } from './modules/UI_display.js';
+/* eslint-enable */
+import singlePage from './modules/mainApp.js';
+import { DateTime } from './modules/luxon.js';
 
-const titleNew = document.querySelector('#title');
-const authorNew = document.querySelector('#author');
-const form = document.querySelector('#book-form');
-const collection = document.querySelector('#collection');
-const book = [];
-const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+/* eslint-disable */
+const library = document.querySelector('.library');
 
-function populate(book) {
-  const row = document.createElement('tr');
-  const bookTitle = document.createElement('td');
-  const bookAuthor = document.createElement('td');
-  const removeBtn = document.createElement('button');
-  bookTitle.innerText = `"${book.title}" by ${book.author}`;
-  removeBtn.innerText = 'delete';
-  row.append(bookTitle, bookAuthor, removeBtn);
-  collection.append(row);
-  removeBtn.addEventListener('click', () => {
-    removeBtn.parentElement.remove();
-    const objBookClassRemove = new BookClass(book.id, book.title, book.author);
-    objBookClassRemove.removeBook();
-  });
-}
+export default library;
+/* eslint-enable */
 
-bookList.forEach(populate);
-form.addEventListener('submit', (e) => {
+// Add new || Fetch books to || from Local Storage
+document.querySelector('.add').addEventListener('click', (e) => {
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+
+  /* Prevent Default Behavior */
   e.preventDefault();
-  if (titleNew.value !== '' && authorNew.value !== '') {
-    const bookId = Math.floor(Math.random() * 100000);
-    const objBookClass = new BookClass(bookId, titleNew.value, authorNew.value);
-    objBookClass.addBook();
-    populate(book);
-    form.reset();
+  if (title === '' || author === '') {
+    validateForm();
+    setTimeout(() => {
+      document.querySelector('.error-index').textContent = '';
+    }, 2000);
   } else {
-    // eslint-disable-next-line no-alert
-    alert('Please enter a title and author');
+    /* Create & Add new book */
+    const newBook = new Book(title, author);
+    writeBook(newBook);
+    Storage.updateBook(newBook);
+    document.querySelector('.form').reset();
   }
 });
 
-const bookSection = document.querySelector('#book-list');
-const formSection = document.querySelector('#form-section');
-const contactSection = document.querySelector('#contact');
+/* Display books on the UI */
+document.addEventListener('DOMContentLoaded', UI.displayBook);
 
-const listButton = document.querySelector('#list-nav');
-const addButton = document.querySelector('#add-nav');
-const contactButton = document.querySelector('#contact-nav');
-
-function homeSectionDisplay() {
-  if (bookSection.style.display === 'none') {
-    bookSection.style.display = 'flex';
-    formSection.style.display = 'none';
-    contactSection.style.display = 'none';
-  } else {
-    formSection.style.display = 'none';
-    contactSection.style.display = 'none';
-  }
-}
-
-listButton.addEventListener('click', () => {
-  homeSectionDisplay();
+/* Delete books from UI and Local Storage */
+library.addEventListener('click', (e) => {
+  removeBook(e.target);
+  UI.deleteBook(e.target.parentElement.previousElementSibling.previousElementSibling.textContent);
 });
 
-addButton.addEventListener('click', () => {
-  if (formSection.style.display === 'none') {
-    formSection.style.display = 'flex';
-    bookSection.style.display = 'none';
-    contactSection.style.display = 'none';
-  } else {
-    bookSection.style.display = 'none';
-    contactSection.style.display = 'none';
-  }
+/* Implementing Single page Application function */
+document.querySelectorAll('.nav-list a').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    singlePage(e.target.dataset.page);
+  });
 });
-contactButton.addEventListener('click', () => {
-  if (contactSection.style.display === 'none') {
-    contactSection.style.display = 'flex';
-    formSection.style.display = 'none';
-    bookSection.style.display = 'none';
-  } else {
-    formSection.style.display = 'none';
-    bookSection.style.display = 'none';
-  }
+
+const realTime = () => {
+  const td = DateTime.now().toLocaleString(DateTime.DATETIME_MED);
+  document.querySelector('.date').textContent = td;
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setInterval(realTime, 1000);
 });
