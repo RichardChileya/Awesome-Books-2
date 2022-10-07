@@ -1,5 +1,5 @@
 # Awesome-Books-2
-Aweome books project code written using Es6 Approach
+This Project is a continuation of the Aweome books project in this edition, the code was written following ES6 javascript approach to make the code follow the DRY pricnciples approach
 
 # Project Title : My Awesome Books 
 
